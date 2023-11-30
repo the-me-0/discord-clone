@@ -9,8 +9,11 @@ import {Check, Copy, RefreshCw} from 'lucide-react';
 import {useOrigin} from '@/hooks/use-origin';
 import {useState} from 'react';
 import axios from 'axios';
+import {useRouter} from "next/navigation";
 
 export const InviteModal = () => {
+    const router = useRouter();
+
     const { onOpen, isOpen, onClose, type, data } = useModal();
     const origin = useOrigin();
 
@@ -37,6 +40,7 @@ export const InviteModal = () => {
             const response = await axios.patch(`/api/servers/${server?.id}/invite-code`);
 
             // Call this same modal with refreshed data
+            router.refresh();
             onOpen('invite', { server: response.data });
         } catch (error) {
             console.log(error);
